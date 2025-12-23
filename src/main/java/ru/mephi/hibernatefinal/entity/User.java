@@ -21,4 +21,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
+
+    @OneToOne(mappedBy = "user")
+    private Profile profile;
 }

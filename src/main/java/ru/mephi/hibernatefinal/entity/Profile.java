@@ -18,7 +18,7 @@ public class Profile {
     private String bio;
     @Column(name = "avatar_url")
     private String avatarUrl;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 }

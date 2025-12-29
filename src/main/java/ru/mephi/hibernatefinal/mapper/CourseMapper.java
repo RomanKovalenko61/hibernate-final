@@ -2,7 +2,6 @@ package ru.mephi.hibernatefinal.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 import ru.mephi.hibernatefinal.dto.response.CourseResponseDto;
 import ru.mephi.hibernatefinal.dto.response.LessonResponseDto;
 import ru.mephi.hibernatefinal.dto.response.ModuleResponseDto;
@@ -14,6 +13,8 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface CourseMapper {
+    @Mapping(target = "categoryId", source = "category.id")
+    @Mapping(target = "teacherId", source = "teacher.id")
     CourseResponseDto toDto(Course course);
 
     ModuleResponseDto moduleToDto(Module m);

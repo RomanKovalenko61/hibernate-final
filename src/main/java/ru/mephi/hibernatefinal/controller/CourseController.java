@@ -1,15 +1,16 @@
 package ru.mephi.hibernatefinal.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.mephi.hibernatefinal.dto.request.CourseCreateDto;
-import ru.mephi.hibernatefinal.dto.request.CourseUpdateDto;
-import ru.mephi.hibernatefinal.dto.request.LessonDto;
 import ru.mephi.hibernatefinal.dto.request.ModuleDto;
+import ru.mephi.hibernatefinal.dto.request.LessonDto;
+import ru.mephi.hibernatefinal.dto.request.CourseUpdateDto;
 import ru.mephi.hibernatefinal.dto.response.CourseResponseDto;
 import ru.mephi.hibernatefinal.entity.Course;
-import ru.mephi.hibernatefinal.entity.Lesson;
 import ru.mephi.hibernatefinal.entity.Module;
+import ru.mephi.hibernatefinal.entity.Lesson;
 import ru.mephi.hibernatefinal.mapper.CourseMapper;
 import ru.mephi.hibernatefinal.service.CourseService;
 
@@ -28,7 +29,7 @@ public class CourseController {
     }
 
     @PostMapping
-    public ResponseEntity<CourseResponseDto> createCourse(@RequestBody CourseCreateDto dto) {
+    public ResponseEntity<CourseResponseDto> createCourse(@Valid @RequestBody CourseCreateDto dto) {
         Course created = courseService.createCourse(dto);
         CourseResponseDto response = courseMapper.toDto(created);
         return ResponseEntity.created(URI.create("/api/courses/" + created.getId())).body(response);
@@ -41,7 +42,7 @@ public class CourseController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CourseResponseDto> updateCourse(@PathVariable Integer id, @RequestBody CourseUpdateDto dto) {
+    public ResponseEntity<CourseResponseDto> updateCourse(@PathVariable Integer id, @Valid @RequestBody CourseUpdateDto dto) {
         Course updated = courseService.updateCourse(id, dto);
         return ResponseEntity.ok(courseMapper.toDto(updated));
     }
@@ -53,13 +54,13 @@ public class CourseController {
     }
 
     @PostMapping("/{id}/modules")
-    public ResponseEntity<Void> addModule(@PathVariable Integer id, @RequestBody ModuleDto moduleDto) {
+    public ResponseEntity<Void> addModule(@PathVariable Integer id, @Valid @RequestBody ModuleDto moduleDto) {
         Module module = courseService.addModuleToCourse(id, moduleDto);
         return ResponseEntity.created(URI.create("/api/modules/" + module.getId())).build();
     }
 
     @PostMapping("/modules/{id}/lessons")
-    public ResponseEntity<Void> addLesson(@PathVariable Integer id, @RequestBody LessonDto lessonDto) {
+    public ResponseEntity<Void> addLesson(@PathVariable Integer id, @Valid @RequestBody LessonDto lessonDto) {
         Lesson lesson = courseService.addLessonToModule(id, lessonDto);
         return ResponseEntity.created(URI.create("/api/lessons/" + lesson.getId())).build();
     }

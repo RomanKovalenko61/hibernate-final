@@ -1,13 +1,10 @@
 package ru.mephi.hibernatefinal;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.platform.suite.api.Suite;
 
-@SpringBootTest
-class HibernateFinalApplicationTests {
-
-    @Test
-    void contextLoads() {
-    }
-
+@Suite
+@SelectPackages("ru.mephi.hibernatefinal.repository")
+public class HibernateFinalApplicationTests {
+    // Для запуска его в IDE. Прогонит все тесты в пакете repository
 }

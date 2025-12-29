@@ -1,30 +1,16 @@
 package ru.mephi.hibernatefinal.mapper;
 
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import ru.mephi.hibernatefinal.dto.response.QuizResponseDto;
 import ru.mephi.hibernatefinal.entity.Quiz;
 
-import java.util.stream.Collectors;
+import java.util.List;
 
-@Component
-public class QuizMapper {
+@Mapper(componentModel = "spring")
+public interface QuizMapper {
+    @Mapping(target = "moduleId", source = "module.id")
+    QuizResponseDto toDto(Quiz q);
 
-    private final QuestionMapper questionMapper;
-
-    public QuizMapper(QuestionMapper questionMapper) {
-        this.questionMapper = questionMapper;
-    }
-
-    public QuizResponseDto toDto(Quiz q) {
-        if (q == null) return null;
-        QuizResponseDto dto = new QuizResponseDto();
-        dto.setId(q.getId());
-        dto.setModuleId(q.getModule() != null ? q.getModule().getId() : null);
-        dto.setTitle(q.getTitle());
-        dto.setTimeLimit(q.getTimeLimit());
-        if (q.getQuestions() != null) {
-            dto.setQuestions(q.getQuestions().stream().map(questionMapper::toDto).collect(Collectors.toList()));
-        }
-        return dto;
-    }
+    List<QuizResponseDto> toDtoList(List<Quiz> quizzes);
 }

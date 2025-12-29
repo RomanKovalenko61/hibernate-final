@@ -1,14 +1,13 @@
 package ru.mephi.hibernatefinal.mapper;
 
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import ru.mephi.hibernatefinal.dto.response.CourseReviewResponseDto;
 import ru.mephi.hibernatefinal.entity.CourseReview;
 
-@Component
-public class CourseReviewMapper {
-    public CourseReviewResponseDto toDto(CourseReview r) {
-        if (r == null) return null;
-        return new CourseReviewResponseDto(r.getId(), r.getCourse() != null ? r.getCourse().getId() : null,
-                r.getStudent() != null ? r.getStudent().getId() : null, r.getRating(), r.getComment(), r.getCreatedAt());
-    }
+@Mapper(componentModel = "spring")
+public interface CourseReviewMapper {
+    @Mapping(target = "courseId", source = "course.id")
+    @Mapping(target = "studentId", source = "student.id")
+    CourseReviewResponseDto toDto(CourseReview r);
 }
